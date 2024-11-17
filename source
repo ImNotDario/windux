@@ -496,6 +496,18 @@ local xmvms = {
 			xmindex = 1 + xmindex
 			return a
 		end,
+	},
+	["Canvas"] = {
+		["oncreate"] = function(pn,vx)
+			local a = Instance.new("Frame")
+			a.Parent = pn
+			a.Position = vx["pos"]
+			a.Size = vx["size"]
+			a.BackgroundColor3 = vx["color"]
+			a.BackgroundTransparency = vx["transparency"]
+			a.BorderSizePixel = 0
+			return aa
+		end,
 	}
 }
 
