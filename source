@@ -462,6 +462,40 @@ local xmvms = {
 			xmindex = 1 + xmindex
 			return a
 		end
+	},
+	["Image"] = {
+		["oncreate"] = function(pn,vx)
+			local a = Instance.new("ImageLabel")
+			a.Parent = pn
+			a.Name = "UIComponent" .. tostring(xmindex)
+			a.Size = vx["size"] or UDim2.new(0, 100, 0, 100)
+			a.Position = vx["pos"] or UDim2.new(0, 5, 0, 5)
+			a.Image = vx["image"] or ""
+			a.BackgroundColor3 = vx["bgcolor"] or Color3.new(1,1,1)
+			a.BackgroundTransparency = vx["bgtrans"] or 0
+			xmindex = 1 + xmindex
+			return a
+		end,
+	},
+	["ImageBtn"] = {
+		["oncreate"] = function(pn,vx)
+			local a = Instance.new("ImageLabel")
+			a.Parent = pn
+			a.Name = "UIComponent" .. tostring(xmindex)
+			a.Size = vx["size"] or UDim2.new(0, 100, 0, 100)
+			a.Position = vx["pos"] or UDim2.new(0, 5, 0, 5)
+			a.Image = vx["image"] or ""
+			a.BackgroundColor3 = vx["bgcolor"] or Color3.new(1,1,1)
+			a.BackgroundTransparency = vx["bgtrans"] or 0
+			local b = Instance.new("TextButton")
+			b.Parent = a
+			b.BackgroundTransparency = 1
+			b.Name = "BtnHandle"
+			b.Text = ""
+			b.Size = UDim2.new(1,0,1,0)
+			xmindex = 1 + xmindex
+			return a
+		end,
 	}
 }
 
