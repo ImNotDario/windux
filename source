@@ -1,0 +1,691 @@
+--  [[ WINDUX ]]  --
+-- made by zegs32 --
+-- framework for  --
+--     UI/UX      --
+-- looks like wi- --
+-- 	   ndows      --
+--  [[ SCRIPT ]]  --
+windux = {}
+local xmindex = 1
+local xmvms = {
+	["Label"] = {
+		["oncreate"] = function(pn, vx)
+			local sa = Instance.new("TextLabel")
+			sa.Parent = pn
+			sa.Text = " " .. (vx["text"] or "Label")
+			sa.Name = "UIComponent" .. tostring(xmindex)
+			sa.Position = vx["pos"] or UDim2.new(0, 0, 0, 2)
+			sa.Size = vx["size"] or UDim2.new(0, sa.TextBounds.X, 0, sa.TextBounds.Y)
+			sa.Rotation = vx["rot"] or 0
+			sa.TextColor3 = vx["textcolor"] or Color3.new(0, 0, 0)
+			sa.FontFace = vx["font"] or Font.fromEnum(Enum.Font.SourceSans)
+			sa.TextSize = vx["fontsize"] or 14
+			sa.TextXAlignment = vx["alignx"] or Enum.TextXAlignment.Left
+			sa.TextYAlignment = vx["aligny"] or Enum.TextYAlignment.Center
+			sa.BorderSizePixel = 0
+			sa.BackgroundTransparency = (function() if vx["bgcolor"] ~= nil then return 0 else return 1 end end)()
+			sa.BackgroundColor3 = vx["bgcolor"] or Color3.new(1, 1, 1)
+			sa:GetPropertyChangedSignal("TextBounds"):Connect(function()
+				sa.Size = vx["size"] or UDim2.new(0, sa.TextBounds.X, 0, sa.TextBounds.Y)
+			end)
+			xmindex = 1 + xmindex
+			return sa
+		end
+	},
+	["Button"] = {
+		["oncreate"] = function(pn, vx)
+			local sa = Instance.new("TextButton")
+			sa.Parent = pn
+			sa.Text = " " .. (vx["text"] or "Button")
+			sa.Name = "UIComponent" .. tostring(xmindex)
+			sa.Position = vx["pos"] or UDim2.new(0, 0, 0, 2)
+			sa.Size = vx["size"] or UDim2.new(0, 40, 0, 24)
+			sa.Rotation = vx["rot"] or 0
+			sa.TextColor3 = vx["textcolor"] or Color3.new(0, 0, 0)
+			sa.FontFace = vx["font"] or Font.fromEnum(Enum.Font.SourceSans)
+			sa.TextSize = vx["fontsize"] or 14
+			sa.TextXAlignment = vx["alignx"] or Enum.TextXAlignment.Center
+			sa.TextYAlignment = vx["aligny"] or Enum.TextYAlignment.Center
+			sa.BackgroundColor3 = Color3.new(0.882353, 0.882353, 0.882353)
+			sa.BorderColor3 = Color3.new(0.780392, 0.780392, 0.780392)
+			sa.BorderMode = Enum.BorderMode.Inset
+			sa.BorderSizePixel = 1
+			sa.TextWrapped = true
+			sa.AutoButtonColor = false
+			sa.MouseEnter:Connect(function()
+				sa.BorderColor3 = Color3.new(0, 0.470588, 0.843137)
+				sa.BackgroundColor3 = Color3.new(0.898039, 0.945098, 0.984314)
+			end)
+			sa.MouseLeave:Connect(function()
+				sa.BackgroundColor3 = Color3.new(0.882353, 0.882353, 0.882353)
+				sa.BorderColor3 = Color3.new(0.780392, 0.780392, 0.780392)
+			end)
+			sa.MouseButton1Down:Connect(function()
+				sa.BorderColor3 = Color3.new(0, 0.470588, 0.843137)
+				sa.BackgroundColor3 = Color3.new(0.8, 0.894118, 0.968627)
+			end)
+			sa.MouseButton1Up:Connect(function()
+				sa.BorderColor3 = Color3.new(0, 0.470588, 0.843137)
+				sa.BackgroundColor3 = Color3.new(0.898039, 0.945098, 0.984314)
+			end)
+			xmindex = 1 + xmindex
+			return sa
+		end
+	},
+	["TextBox"] = {
+		["oncreate"] = function(pn, vx)
+			local tb = Instance.new("TextBox")
+			tb.Parent = pn
+			tb.Text = vx["text"] or ""
+			tb.PlaceholderText = vx["placeholder"] or "Enter text..."
+			tb.Name = "UIComponent" .. tostring(xmindex)
+			tb.Position = vx["pos"] or UDim2.new(0, 0, 0, 2)
+			tb.Size = vx["size"] or UDim2.new(0, 100, 0, 24)
+			tb.Rotation = vx["rot"] or 0
+			tb.TextColor3 = vx["textcolor"] or Color3.new(0, 0, 0)
+			tb.FontFace = vx["font"] or Font.fromEnum(Enum.Font.SourceSans)
+			tb.TextSize = vx["fontsize"] or 14
+			tb.TextXAlignment = vx["alignx"] or Enum.TextXAlignment.Left
+			tb.TextYAlignment = vx["aligny"] or Enum.TextYAlignment.Center
+			tb.BackgroundColor3 = vx["bgcolor"] or Color3.new(1, 1, 1)
+			tb.BorderColor3 = vx["bordercolor"] or Color3.new(0.7, 0.7, 0.7)
+			tb.BorderSizePixel = 1
+			tb.BorderMode = Enum.BorderMode.Inset
+			tb.ClearTextOnFocus = false
+			tb.TextWrapped = false
+			tb.ClipsDescendants = true
+			tb.TextEditable = true
+			local padding = Instance.new("UIPadding")
+			padding.Parent = tb
+			padding.PaddingLeft = UDim.new(0, 5)
+			padding.PaddingRight = UDim.new(0, 5)
+			padding.PaddingTop = UDim.new(0, 2)
+			padding.PaddingBottom = UDim.new(0, 2)
+			xmindex = 1 + xmindex
+			return tb
+		end
+	},
+	["GroupBox"] = {
+		["oncreate"] = function(pn, vx)
+			local gb = Instance.new("Frame")
+			gb.Parent = pn
+			gb.Name = "UIComponent" .. tostring(xmindex)
+			gb.Position = vx["pos"] or UDim2.new(0, 0, 0, 2)
+			gb.Size = vx["size"] or UDim2.new(0, 200, 0, 100)
+			gb.BackgroundColor3 = Color3.new()
+			gb.BorderSizePixel = 1
+			gb.BackgroundTransparency = 1
+			gb.BackgroundColor3= Color3.fromRGB(243, 243, 243)
+
+			local gx=Instance.new("Frame")
+			gx.Size = gb.Size - UDim2.new(0, 10, 0, 10)
+			gx.Position = UDim2.new(0, 5, 0, 5)
+			gx.BorderMode = Enum.BorderMode.Inset
+			gx.BackgroundColor3 = gb.BackgroundColor3
+			gx.Parent = gb
+			gx.BorderColor3 = Color3.new(0.862745, 0.862745, 0.862745)
+			-- Title for the GroupBox (like a header)
+			local title = Instance.new("TextLabel")
+			title.Parent = gb
+			title.Text = vx["title"] or "GroupBox"
+			title.Name = "GroupBoxTitle"
+			title.Size = UDim2.new(0, 15, 0, 14)
+			title.Position = UDim2.new(0, 20, 0, 0)
+			title.BackgroundColor3 = gb.BackgroundColor3
+			title.TextColor3 = Color3.new(0, 0, 0)
+			title.TextSize = 14
+			title.TextXAlignment = Enum.TextXAlignment.Center
+			title.TextYAlignment = Enum.TextYAlignment.Center
+			title.BorderSizePixel = 0
+			title.FontFace = vx["font"] or Font.fromEnum(Enum.Font.SourceSans)
+			title:GetPropertyChangedSignal("TextBounds"):Connect(function()
+				title.Size = vx["size"] or UDim2.new(0, title.TextBounds.X, 0, title.TextBounds.Y)
+			end)
+			-- Make sure children components are inside the GroupBox
+			gb.ClipsDescendants = true
+			xmindex = 1 + xmindex
+			return gx
+		end 
+	},
+	["NumericInput"] = {
+		["oncreate"] = function(pn, vx)
+			local tb = Instance.new("TextBox")
+			tb.Parent = pn
+			tb.Text = vx["text"] or "0.00"
+			tb.PlaceholderText = vx["placeholder"] or "Enter a number..."
+			tb.Name = "UIComponent" .. tostring(xmindex)
+			tb.Position = vx["pos"] or UDim2.new(0, 0, 0, 2)
+			tb.Size = vx["size"] or UDim2.new(0, 100, 0, 24)
+			tb.Rotation = vx["rot"] or 0
+			tb.TextColor3 = vx["textcolor"] or Color3.new(0, 0, 0)
+			tb.FontFace = vx["font"] or Font.fromEnum(Enum.Font.SourceSans)
+			tb.TextSize = vx["fontsize"] or 14
+			tb.TextXAlignment = vx["alignx"] or Enum.TextXAlignment.Left
+			tb.TextYAlignment = vx["aligny"] or Enum.TextYAlignment.Center
+			tb.BackgroundColor3 = vx["bgcolor"] or Color3.new(1, 1, 1)
+			tb.BorderColor3 = vx["bordercolor"] or Color3.new(0.7, 0.7, 0.7)
+			tb.BorderSizePixel = 1
+			tb.BorderMode = Enum.BorderMode.Inset
+			tb.ClearTextOnFocus = false
+			tb.TextWrapped = false
+			tb.ClipsDescendants = true
+			tb.TextEditable = true
+			-- add min and max values for limiting between
+			-- Add padding for spacing
+			local padding = Instance.new("UIPadding")
+			padding.Parent = tb
+			padding.PaddingLeft = UDim.new(0, 5)
+			padding.PaddingRight = UDim.new(0, 0)
+			padding.PaddingTop = UDim.new(0, 2)
+			padding.PaddingBottom = UDim.new(0, 2)
+
+			-- Restrict input to numbers and only one decimal point
+			tb:GetPropertyChangedSignal("Text"):Connect(function()
+				-- Allow only digits and one decimal point
+				local newText = ""
+				local decimalPointCount = 0
+				local negativeCount = 0
+				for i = 1, #tb.Text do
+					local char = tb.Text:sub(i, i)
+					-- Allow digits and decimal point, but only one decimal point
+					if char:match("%d") then
+						newText = newText .. char
+					elseif char == "." then
+						-- Allow the decimal point only if it's not already present
+						if decimalPointCount == 0 then
+							newText = newText .. char
+							decimalPointCount = decimalPointCount + 1
+						end
+					elseif char == "-" then
+						if negativeCount == 0 then
+							newText = newText .. char
+							negativeCount = negativeCount + 1
+						end
+					end
+				end
+
+				tb.Text = newText
+				-- Place cursor at the end
+				tb.CursorPosition = #newText + 1
+			end)
+			-- UP VALUE --
+			local up = Instance.new("TextButton")
+			up.Parent = tb
+			up.Text = "▲"
+			up.Name = "UPTOOL"
+			up.TextColor3 = Color3.new(0, 0, 0)
+			up.FontFace = Font.fromEnum(Enum.Font.SourceSans)
+			up.TextSize = 8
+			up.TextXAlignment = Enum.TextXAlignment.Center
+			up.TextYAlignment = Enum.TextYAlignment.Center
+			up.BackgroundColor3 = Color3.new(0.882353, 0.882353, 0.882353)
+			up.BorderColor3 = Color3.new(0.780392, 0.780392, 0.780392)
+			up.BorderMode = Enum.BorderMode.Inset
+			up.BorderSizePixel = 1
+			up.TextWrapped = true
+			up.AutoButtonColor = false
+			up.MouseEnter:Connect(function()
+				up.BorderColor3 = Color3.new(0, 0.470588, 0.843137)
+				up.BackgroundColor3 = Color3.new(0.898039, 0.945098, 0.984314)
+			end)
+			up.MouseLeave:Connect(function()
+				up.BackgroundColor3 = Color3.new(0.882353, 0.882353, 0.882353)
+				up.BorderColor3 = Color3.new(0.780392, 0.780392, 0.780392)
+			end)
+			up.MouseButton1Down:Connect(function()
+				up.BorderColor3 = Color3.new(0, 0.470588, 0.843137)
+				up.BackgroundColor3 = Color3.new(0.8, 0.894118, 0.968627)
+			end)
+			up.MouseButton1Up:Connect(function()
+				up.BorderColor3 = Color3.new(0, 0.470588, 0.843137)
+				up.BackgroundColor3 = Color3.new(0.898039, 0.945098, 0.984314)
+			end)
+			up.MouseButton1Up:Connect(function()
+				tb.Text = tostring((tonumber(tb.Text) or 0) + 1) .. (function() if not tostring((tonumber(tb.Text) or 0) + 1):match("%.") then return ".00" else return "" end end)()
+			end)
+			up.Size = UDim2.new(0, 18, 0, 12)
+			up.AnchorPoint = Vector2.new(1, 1) 
+			up.Position = UDim2.new(1, 0,0.5,0)
+			-- END
+			-- DOWN VALUE --
+			local down = Instance.new("TextButton")
+			down.Parent = tb
+			down.Text = "▼"
+			down.Name = "DOWNTOOL"
+			down.TextColor3 = Color3.new(0, 0, 0)
+			down.FontFace = Font.fromEnum(Enum.Font.SourceSans)
+			down.TextSize = 8
+			down.TextXAlignment = Enum.TextXAlignment.Center
+			down.TextYAlignment = Enum.TextYAlignment.Center
+			down.BackgroundColor3 = Color3.new(0.882353, 0.882353, 0.882353)
+			down.BorderColor3 = Color3.new(0.780392, 0.780392, 0.780392)
+			down.BorderMode = Enum.BorderMode.Inset
+			down.BorderSizePixel = 1
+			down.TextWrapped = true
+			down.AutoButtonColor = false
+			down.MouseEnter:Connect(function()
+				down.BorderColor3 = Color3.new(0, 0.470588, 0.843137)
+				down.BackgroundColor3 = Color3.new(0.898039, 0.945098, 0.984314)
+			end)
+			down.MouseLeave:Connect(function()
+				down.BackgroundColor3 = Color3.new(0.882353, 0.882353, 0.882353)
+				down.BorderColor3 = Color3.new(0.780392, 0.780392, 0.780392)
+			end)
+			down.MouseButton1Down:Connect(function()
+				down.BorderColor3 = Color3.new(0, 0.470588, 0.843137)
+				down.BackgroundColor3 = Color3.new(0.8, 0.894118, 0.968627)
+			end)
+			down.MouseButton1Up:Connect(function()
+				down.BorderColor3 = Color3.new(0, 0.470588, 0.843137)
+				down.BackgroundColor3 = Color3.new(0.898039, 0.945098, 0.984314)
+			end)
+			down.MouseButton1Up:Connect(function()
+				-- Get the current value from tb.Text or default to 0
+				local currentValue = tonumber(tb.Text)
+
+				-- Debugging print statement to see the current value
+				print("Current Value: " .. tostring(currentValue))
+
+				-- If it's not a valid number, initialize it to 0
+				if currentValue == nil then
+					currentValue = 0
+				end
+
+				-- Decrement the value
+				currentValue = currentValue - 1
+
+				-- Print the updated value to the output for debugging
+				print("New Value: " .. tostring(currentValue))
+
+				-- Update the TextBox with the new value
+				tb.Text = tostring(currentValue) .. (function() if not tostring(currentValue):match("%.") then return ".00" else return "" end end)()
+			end)
+
+			down.Size = UDim2.new(0, 18, 0, 12)
+			down.AnchorPoint = Vector2.new(1, 0)
+			down.Position = UDim2.new(1,0,0.5,0)
+			-- END
+			xmindex = 1 + xmindex
+			return tb
+		end
+	},
+	["Toggle"] = {
+		["oncreate"] = function(pn,vx)
+			local UI = Instance.new("TextLabel")
+			local CheckUI = Instance.new("Frame")
+			local TextLabel = Instance.new("TextLabel")
+
+			UI.Name = "UIElement" .. tostring(xmindex)
+			UI.Parent = pn
+			UI.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+			UI.BackgroundTransparency = 1.000
+			UI.BorderColor3 = Color3.fromRGB(0, 0, 0)
+			UI.BorderSizePixel = 0
+			UI.Size = UDim2.new(0, (vx["xw"]or 150), 0, 24)
+			UI.Font = Enum.Font.SourceSans
+			UI.Text = "             " .. (vx["text"] or "Label")
+			UI.TextColor3 = Color3.fromRGB(0, 0, 0)
+			UI.TextSize = 14.000
+			UI.TextXAlignment = Enum.TextXAlignment.Left
+
+			CheckUI.Name = "CheckUI"
+			CheckUI.Parent = UI
+			CheckUI.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+			CheckUI.BackgroundTransparency = -1.000
+			CheckUI.BorderColor3 = Color3.fromRGB(0, 0, 0)
+			CheckUI.Position = UDim2.new(0, 5, 0, 5)
+			CheckUI.Size = UDim2.new(0, 14, 0, 14)
+
+			TextLabel.Parent = CheckUI
+			TextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+			TextLabel.BackgroundTransparency = 1.000
+			TextLabel.BorderColor3 = Color3.fromRGB(0, 0, 0)
+			TextLabel.BorderSizePixel = 0
+			TextLabel.Position = UDim2.new(0, 0, 0, 1)
+			TextLabel.Size = UDim2.new(1, 0, 1, 0)
+			TextLabel.Font = Enum.Font.SourceSans
+			TextLabel.TextColor3 = Color3.fromRGB(0, 0, 0)
+			TextLabel.Text = ""
+			TextLabel.TextSize = 11.000
+			TextLabel.TextXAlignment = Enum.TextXAlignment.Center
+			TextLabel.TextYAlignment = Enum.TextYAlignment.Center
+
+			local ToggleData = Instance.new("BoolValue")
+			ToggleData.Parent = UI
+			ToggleData.Name = "Checked"
+			ToggleData.Value = false
+
+			local btnxl = Instance.new("TextButton")
+			btnxl.Parent = TextLabel
+			btnxl.BackgroundTransparency = 1
+			btnxl.Size = UDim2.new(1,0,1,0)
+			btnxl.Text = ""
+
+			btnxl.MouseButton1Up:Connect(function()
+				ToggleData.Value = not ToggleData.Value
+				TextLabel.Text = (function() if ToggleData.Value == false then return " " else return "✔" end end)()
+				CheckUI.BorderColor3 = Color3.new(0, 0.470588, 0.843137)
+				CheckUI.BackgroundColor3 = Color3.new(0.898039, 0.945098, 0.984314)
+			end)
+			btnxl.MouseEnter:Connect(function()
+				CheckUI.BorderColor3 = Color3.new(0, 0.470588, 0.843137)
+				CheckUI.BackgroundColor3 = Color3.new(0.898039, 0.945098, 0.984314)
+			end)
+			btnxl.MouseLeave:Connect(function()
+				CheckUI.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				CheckUI.BorderColor3 = Color3.fromRGB(0, 0, 0)
+			end)
+			btnxl.MouseButton1Down:Connect(function()
+				CheckUI.BorderColor3 = Color3.new(0, 0.470588, 0.843137)
+				CheckUI.BackgroundColor3 = Color3.new(0.8, 0.894118, 0.968627)
+			end)
+			xmindex = 1 + xmindex
+			return UI
+		end
+	},
+	["ComponentList"] = {
+		["oncreate"] = function(pn,vx)
+			local a = Instance.new("Frame")
+			a.Parent = pn
+			a.Name = "UIComponent"..tostring(xmindex)
+			a.BackgroundColor3 = vx["bgcolor"] or Color3.fromRGB(255, 255, 255)
+			a.BorderColor3 = Color3.fromRGB(0, 0, 0)
+			a.Position = vx["pos"] or UDim2.new(0, 5, 0, 5)
+			a.Size = vx["size"] or UDim2.new(0, 50, 0, 50)
+			local b = Instance.new("UIListLayout")
+			b.Parent = a
+			b.Name = "ListLayout"
+			xmindex = 1 + xmindex
+			return a
+		end,
+	},
+	["List"] = {
+		["oncreate"] = function(pn, vx)
+			local selindex = -1
+			local lastSelectedItem = nil  -- Variable to keep track of the last selected item
+			local a = Instance.new("ScrollingFrame")
+			a.Parent = pn
+			a.BackgroundColor3 = vx["bgcolor"] or Color3.new(1, 1, 1)
+			a.Position = vx["pos"] or UDim2.new(0, 5, 0, 5)
+			a.Size = vx["size"] or UDim2.new(0, 50, 0, 50)
+			a.Name = "UIComponent" .. tostring(xmindex)
+			a.CanvasSize = UDim2.new(0, 0, 0, 0)  -- Initialize CanvasSize
+
+			local totalHeight = 0  -- Variable to keep track of the total height of all items
+
+			for i in ipairs(vx["items"] or {}) do
+				local x = Instance.new("TextLabel", a)
+				x.Text = vx["items"][i]
+				x.FontFace = Font.fromEnum(Enum.Font.SourceSans)
+				x.TextColor3 = Color3.new(0,0,0)
+				x.Size = UDim2.new(1, 0, 0, 16)  -- Each item's height is 16
+				x.TextSize = 14
+				x.BackgroundTransparency = 1
+				x.BackgroundColor3 = Color3.new(0.1, 0.5, 1)
+				x.BorderSizePixel = 0
+				x.Name = "Item" .. tostring(i)
+
+				totalHeight = totalHeight + x.Size.Y.Offset  -- Add the height of the item to totalHeight
+
+				local y = Instance.new("IntValue", x)
+				y.Name = "Index"
+				y.Value = i
+
+				local z = Instance.new("TextButton", x)
+				z.Size = UDim2.new(1, 0, 1, 0)
+				z.BackgroundTransparency = 1
+				z.Text = ""
+
+				z.MouseButton1Down:Connect(function()
+					-- Reset the background color of the last selected item, if it exists
+					if lastSelectedItem and lastSelectedItem ~= x then
+						lastSelectedItem.BackgroundTransparency = 1
+					end
+
+					-- Update the background color of the current selected item
+					x.BackgroundTransparency = 0
+
+					-- Store the current item as the last selected item
+					lastSelectedItem = x;
+
+					-- Call the callback function if it exists
+					(vx["OnSelectedIndexChanged"] or function() end)(x.Index.Value)
+				end)
+			end
+
+			-- Set the CanvasSize of the ScrollingFrame to match the total height of the items
+			a.CanvasSize = UDim2.new(0, 0, 0, totalHeight)
+
+			local j = Instance.new("UIListLayout")
+			j.Parent = a
+			xmindex = 1 + xmindex
+			return a
+		end
+	}
+}
+
+function windux:CreateWindow(titlestr, pos, size, iconimg)
+	local main = Instance.new("ScreenGui")
+	local shad = Instance.new("Frame")
+	local window = Instance.new("Frame")
+	local icon = Instance.new("ImageLabel")
+	local title = Instance.new("TextLabel")
+	local draggerarea = Instance.new("Frame")
+	local cInFrame = Instance.new("Frame")
+	local exit = Instance.new("TextButton")
+	local shadowHolder = Instance.new("Frame")
+	local umbraShadow = Instance.new("ImageLabel")
+	local penumbraShadow = Instance.new("ImageLabel")
+	local ambientShadow = Instance.new("ImageLabel")
+
+	main.Name = "main"
+	main.Parent=game:FindFirstChild("CoreGui") or game.Players.LocalPlayer:WaitForChild("PlayerGui")
+
+	shad.Name = "shad"
+	shad.Parent = main
+	shad.Active = true
+	shad.AnchorPoint = Vector2.new(0.5, 0.5)
+	shad.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+	shad.BackgroundTransparency = 1.000
+	shad.BorderColor3 = Color3.fromRGB(0, 0, 0)
+	shad.BorderSizePixel = 0
+	shad.Position = pos or UDim2.new(0.5, 0, 0.5, 0)
+	shad.Size = UDim2.new(0, (size[1] or 16) + 8, 0, (size[2] or 16) + 24 + 8)
+	shad.ZIndex = 0
+
+	window.Name = "window"
+	window.Parent = shad
+	window.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	window.BorderColor3 = Color3.fromRGB(0, 0, 0)
+	window.Position = UDim2.new(0, 4, 0, 4)
+	window.Size = UDim2.new(0, (size[1] or 16), 0, (size[2] or 16) + 24)
+
+	icon.Name = "icon"
+	icon.Parent = window
+	icon.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	icon.BorderColor3 = Color3.fromRGB(0, 0, 0)
+	icon.BorderSizePixel = 0
+	icon.Position = UDim2.new(0, 2, 0, 2)
+	icon.Size = UDim2.new(0, 20, 0, 20)
+	icon.Image = iconimg or ""
+
+	title.Name = "title"
+	title.Parent = window
+	title.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	title.BorderColor3 = Color3.fromRGB(0, 0, 0)
+	title.BorderSizePixel = 0
+	title.Position = (function() if icon.Image ~= "" then return UDim2.new(0, 33, 0, 0) else return UDim2.new(0, 3, 0, 0) end end)()
+	title.Size = UDim2.new(1, -3, 0, 25)
+	title.Font = Enum.Font.SourceSans
+	title.Text = titlestr or ""
+	title.TextColor3 = Color3.fromRGB(0, 0, 0)
+	title.TextSize = 14.000
+	title.TextXAlignment = Enum.TextXAlignment.Left
+
+	draggerarea.Name = "draggerarea"
+	draggerarea.Parent = window
+	draggerarea.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	draggerarea.BackgroundTransparency = 1.000
+	draggerarea.BorderColor3 = Color3.fromRGB(0, 0, 0)
+	draggerarea.BorderSizePixel = 0
+	draggerarea.Position = UDim2.new(0, 0, 0, 0)
+	draggerarea.Size = UDim2.new(1, -38, 0, 25)
+
+	cInFrame.Name = "cInFrame"
+	cInFrame.Parent = window
+	cInFrame.BackgroundColor3 = Color3.fromRGB(243, 243, 243)
+	cInFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+	cInFrame.BorderSizePixel = 0
+	cInFrame.Position = UDim2.new(0, 0, 0, 24)
+	cInFrame.Size = UDim2.new(1, 0, 1, -24)
+
+	exit.Name = "exit"
+	exit.Parent = window
+	exit.AnchorPoint = Vector2.new(1, 0)
+	exit.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	exit.BorderColor3 = Color3.fromRGB(0, 0, 0)
+	exit.BorderSizePixel = 0
+	exit.Position = UDim2.new(1, -2, 0, 0)
+	exit.Size = UDim2.new(0, 38, 0, 22)
+	exit.AutoButtonColor = false
+	exit.Font = Enum.Font.Arial
+	exit.Text = "x"
+	exit.TextColor3 = Color3.fromRGB(0, 0, 0)
+	exit.TextSize = 18.000
+	exit.TextWrapped = true
+
+	shadowHolder.Name = "shadowHolder"
+	shadowHolder.Parent = shad
+	shadowHolder.BackgroundTransparency = 1.000
+	shadowHolder.Size = UDim2.new(1, 0, 1, 0)
+	shadowHolder.ZIndex = -1
+
+	umbraShadow.Name = "umbraShadow"
+	umbraShadow.Parent = shadowHolder
+	umbraShadow.AnchorPoint = Vector2.new(0.5, 0.5)
+	umbraShadow.BackgroundTransparency = 1.000
+	umbraShadow.Position = UDim2.new(0.5, 0, 0.5, 0)
+	umbraShadow.Size = UDim2.new(1, 2, 1, 2)
+	umbraShadow.ZIndex = -1
+	umbraShadow.Image = "rbxassetid://1316045217"
+	umbraShadow.ImageColor3 = Color3.fromRGB(42, 42, 42)
+	umbraShadow.ImageTransparency = 0.860
+	umbraShadow.ScaleType = Enum.ScaleType.Slice
+	umbraShadow.SliceCenter = Rect.new(8, 8, 120, 120)
+
+	penumbraShadow.Name = "penumbraShadow"
+	penumbraShadow.Parent = shadowHolder
+	penumbraShadow.AnchorPoint = Vector2.new(0.5, 0.5)
+	penumbraShadow.BackgroundTransparency = 1.000
+	penumbraShadow.Position = UDim2.new(0.5, 0, 0.5, 0)
+	penumbraShadow.Size = UDim2.new(1, 2, 1, 2)
+	penumbraShadow.ZIndex = -1
+	penumbraShadow.Image = "rbxassetid://1316045217"
+	penumbraShadow.ImageColor3 = Color3.fromRGB(42, 42, 42)
+	penumbraShadow.ImageTransparency = 0.880
+	penumbraShadow.ScaleType = Enum.ScaleType.Slice
+	penumbraShadow.SliceCenter = Rect.new(8, 8, 120, 120)
+
+	ambientShadow.Name = "ambientShadow"
+	ambientShadow.Parent = shadowHolder
+	ambientShadow.AnchorPoint = Vector2.new(0.5, 0.5)
+	ambientShadow.BackgroundTransparency = 1.000
+	ambientShadow.Position = UDim2.new(0.5, 0, 0.5, 0)
+	ambientShadow.Size = UDim2.new(1, 2, 1, 2)
+	ambientShadow.ZIndex = -1
+	ambientShadow.Image = "rbxassetid://1316045217"
+	ambientShadow.ImageColor3 = Color3.fromRGB(42, 42, 42)
+	ambientShadow.ImageTransparency = 0.880
+	ambientShadow.ScaleType = Enum.ScaleType.Slice
+	ambientShadow.SliceCenter = Rect.new(8, 8, 120, 120)
+
+	-- Scripts:
+
+	local function SYKZBQ_fake_script() -- draggerarea.Dragify 
+		local script = Instance.new('LocalScript', draggerarea)
+
+		local UserInputService = game:GetService("UserInputService")
+
+		local gui = script.Parent.Parent.Parent
+
+		local dragging
+		local dragInput
+		local dragStart
+		local startPos
+
+		local function update(input)
+			local delta = input.Position - dragStart
+			gui.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+		end
+
+		gui.window.draggerarea.InputBegan:Connect(function(input)
+			if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+				dragging = true
+				dragStart = input.Position
+				startPos = gui.Position
+
+				input.Changed:Connect(function()
+					if input.UserInputState == Enum.UserInputState.End then
+						dragging = false
+					end
+				end)
+			end
+		end)
+
+		gui.window.draggerarea.InputChanged:Connect(function(input)
+			if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+				dragInput = input
+			end
+		end)
+
+		UserInputService.InputChanged:Connect(function(input)
+			if input == dragInput and dragging then
+				update(input)
+			end
+		end)
+	end
+	coroutine.wrap(SYKZBQ_fake_script)()
+	local function LEJHIGU_fake_script() -- exit.exithandle 
+		local script = Instance.new('LocalScript', exit)
+
+		script.Parent.MouseEnter:Connect(function()
+			script.Parent.TextColor3 = Color3.new(1,1,1)
+			local a = TweenInfo.new(0.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In, 0, false, 0)
+			game:GetService("TweenService"):Create(script.Parent, a, {["BackgroundColor3"] = Color3.new(1,0.1,0.1)}):Play()
+		end)
+		script.Parent.MouseLeave:Connect(function()
+			script.Parent.TextColor3 = Color3.new(0, 0, 0)
+			local a = TweenInfo.new(0.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In, 0, false, 0)
+			game:GetService("TweenService"):Create(script.Parent, a, {["BackgroundColor3"] = Color3.new(1,1,1)}):Play()
+		end)
+		script.Parent.MouseButton1Up:Connect(function()
+			script.Parent.Parent.Parent:Destroy()
+		end)
+	end
+	coroutine.wrap(LEJHIGU_fake_script)()
+	local function ZCZVW_fake_script() -- window.screenvalue 
+		local script = Instance.new('LocalScript', window)
+
+		local n = game.ReplicatedStorage:WaitForChild("vscreen")
+		script.Parent.InputBegan:Connect(function(i)
+			if i.UserInputType == Enum.UserInputType.MouseButton1 or i.UserInputType == Enum.UserInputType.Touch then
+				if i.UserInputState == Enum.UserInputState.Begin then
+					n.Value = n.Value + 1
+					script.Parent.Parent.Parent.DisplayOrder = n.Value
+				end
+			end
+		end)
+	end
+	coroutine.wrap(ZCZVW_fake_script)()
+	-- create vscreen
+	if not game.ReplicatedStorage:FindFirstChild("vscreen") then
+		local n = Instance.new("IntValue", game.ReplicatedStorage)
+		n.Name = "vscreen"
+		n.Value = 0
+	end
+	return main.shad.window.cInFrame
+end
+function windux:Create(parent, classname, vna) 
+	return xmvms[classname].oncreate(parent, vna)
+end
+return windux
