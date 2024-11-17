@@ -501,12 +501,12 @@ local xmvms = {
 		["oncreate"] = function(pn,vx)
 			local a = Instance.new("Frame")
 			a.Parent = pn
-			a.Position = vx["pos"]
-			a.Size = vx["size"]
-			a.BackgroundColor3 = vx["color"]
-			a.BackgroundTransparency = vx["transparency"]
+			a.Position = vx["pos"] or UDim2.new(0, 5, 0, 5)
+			a.Size = vx["size"] or UDim2.new(0, 50, 0, 50)
+			a.BackgroundColor3 = vx["color"] or Color3.new(1,1,1)
+			a.BackgroundTransparency = vx["transparency"] or 1
 			a.BorderSizePixel = 0
-			return aa
+			return a
 		end,
 	}
 }
