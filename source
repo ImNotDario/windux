@@ -319,6 +319,7 @@ local xmvms = {
 			UI.Parent = pn
 			UI.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 			UI.BackgroundTransparency = 1.000
+			UI.Position = vx["pos"]
 			UI.BorderColor3 = Color3.fromRGB(0, 0, 0)
 			UI.BorderSizePixel = 0
 			UI.Size = UDim2.new(0, (vx["xw"]or 150), 0, 24)
